@@ -45,9 +45,8 @@ class App extends Component {
         <Container>
           <Title>Instagram dashboard</Title>
           <Input placeholder="ID" onChange={this.inputValueEvent} />
-
           <Profile id={this.state.id}></Profile>
-          <Follow id={this.state.id}></Follow>
+          
         </Container>
       </div>
     );

@@ -66,10 +66,9 @@ class Follow extends Component {
                 // exceptions from actual bugs in components.
                 (error) => {
                     console.log(error);
-                    /*this.setState({
+                    this.setState({
                         isLoaded: true,
-                        error
-                    });*/
+                    });
                 }
             )
 
@@ -89,10 +88,9 @@ class Follow extends Component {
                 // exceptions from actual bugs in components.
                 (error) => {
                     console.log(error);
-                    /*this.setState({
+                    this.setState({
                         isLoaded: true,
-                        error
-                    });*/
+                    });
                     /*
                                     {followers}
                                     {following}
