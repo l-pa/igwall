@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
-import { Spinner } from 'reactstrap';
+import { Spinner, Badge } from 'reactstrap';
 
 const Username = styled.h3`
   text-size: 7em;
@@ -15,13 +15,13 @@ const Username = styled.h3`
 const Bio = styled.p`
   text-size: 1em;
   padding: 0.5em;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0;
 
   color: palevioletred;
   background: papayawhip;
   border: none;
   border-radius: 3px;
+
 `;
 
 const Image = styled.img`
@@ -46,11 +46,15 @@ class Profile extends Component {
             name: '',
             bio: '',
             profilePicUrl: '',
-            isLoaded: false
+            isLoaded: true,
+            private: false
         };
     }
 
     componentWillReceiveProps(nextProps) {
+        this.setState({
+            isLoaded: false
+        });
         this.setState({ id: nextProps.id, isLoaded: false });
         this.fetchData(nextProps.id)
     }
@@ -69,6 +73,7 @@ class Profile extends Component {
             },
         }
 
+
         fetch("http://localhost:5000/user/" + id, options)
             .then(res => res.json())
             .then(
@@ -77,7 +82,8 @@ class Profile extends Component {
                         name: result.user.username,
                         bio: result.user.biography,
                         profilePicUrl: result.user.profile_pic_url,
-                        isLoaded: true
+                        isLoaded: true,
+                        private: result.user.is_private
                     });
                     //console.log(result);
                 },
@@ -97,18 +103,27 @@ class Profile extends Component {
         if (!this.state.isLoaded) {
             return (
                 <div className="profile">
-                    <Spinner color="secondary" />
+                    <Spinner type="grow" color="primary" />
                 </div>
             );
 
         }
         else {
-            return (
-                <div className="profile">
-                    <Username>{this.state.name}<Image src={this.state.profilePicUrl}></Image></Username>
-                    <Bio>{this.state.bio}</Bio>
-                </div>
-            );
+            if (this.state.private) {
+                return (
+                    <div className="profile">
+                        <Username>{this.state.name}<Image src={this.state.profilePicUrl} onError={(e) => { e.target.onerror = null; e.target.src = "https://www.kuleuven.be/studentenvoorzieningen/kot-leuven/icoontjes/question-mark-on-a-circular-black-background.png/image" }}></Image><Badge color="secondary">Private</Badge></Username>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div className="profile">
+                        <Username>{this.state.name}<Image src={this.state.profilePicUrl} onError={(e) => { e.target.onerror = null; e.target.src = "https://www.kuleuven.be/studentenvoorzieningen/kot-leuven/icoontjes/question-mark-on-a-circular-black-background.png/image" }}></Image></Username>
+                    </div>
+                );
+            }
+
         }
     }
 }

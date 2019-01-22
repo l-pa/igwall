@@ -32,14 +32,20 @@ const Input = styled.input.attrs({
 class App extends Component {
   constructor(props) {
     super(props);
-    this.inputValueEvent = this.inputValueEvent.bind(this)
+    this.doSearch = this.doSearch.bind(this)
+    this.timeout = 0;
     this.state = {
       id: '',
     };
   }
 
-  inputValueEvent(e) {
-    this.setState({ id: e.target.value });
+
+  doSearch(evt) {
+    var searchText = evt.target.value; // this is the search text
+    if (this.timeout) clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.setState({ id: searchText });
+    }, 1000);
   }
 
   render() {
@@ -47,10 +53,10 @@ class App extends Component {
       <div className="App">
         <Container>
           <Title>Instagram mapboard</Title>
-          <Input placeholder="ID" onChange={this.inputValueEvent} />
+          <Input placeholder="ID" onChange={evt => this.doSearch(evt)} />
           <Profile id={this.state.id}></Profile>
         </Container>
-        <Map></Map>
+        <Map id={this.state.id}></Map>
       </div>
     );
   }

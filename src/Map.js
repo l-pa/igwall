@@ -26,8 +26,8 @@ const initialViewState = {
     zoom: 4,
     pitch: 0,
     bearing: 0,
-    width: 500,
-    height: 500
+    width: 32,
+    height: 32
 };
 
 class Map extends Component {
@@ -41,16 +41,17 @@ class Map extends Component {
             data: '',
             hoveredObject: null,
             pointerX: 0,
-            pointerY: 0
+            pointerY: 0,
+            viewport: ''
         };
-        this.getDataAsync()
         // this.state.data = this.getDataAsync()
     }
 
-    getDataAsync() {
-        return fetch('http://localhost:5000/user/kamiloss_01/map')
+    getDataAsync(id) {
+        return fetch("http://localhost:5000/user/" + id + "/map")
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson);
                 this.setState({
                     loaded: true,
                     data: responseJson
@@ -64,7 +65,8 @@ class Map extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ id: nextProps.id });
+        this.setState({ id: nextProps.id, loaded: false, data: '' });
+        this.getDataAsync(nextProps.id)
     }
 
     componentDidMount() {
@@ -93,12 +95,17 @@ class Map extends Component {
         );
     }
 
+    _onViewportChange = viewport => {
+        console.log(viewport);
+        this.setState({ viewport });
+    };
+
 
 
     render() {
         if (!this.state.loaded) {
             return (
-                <div className="map">
+                <div className="map center">
                     Loading
                 </div>
             );
@@ -114,8 +121,8 @@ class Map extends Component {
                     radiusMinPixels: 0,
                     radiusMaxPixels: Number.MAX_SAFE_INTEGER,
                     getPosition: d => d.coordinates,
-                    getRadius: d => 25,
-                    getColor: d => [255, 140, 0],
+                    getRadius: d => (d.count > 100 ? d.count > 500 ? d.count > 1000 ? 100 : 85 : 65 : 25),
+                    getColor: d => (d.count > 100 ? d.count > 500 ? d.count > 1000 ? 100 : [155, 40, 0] : [205, 90, 0] : [255, 140, 0]),
                     onHover: info => this.setState({
                         hoveredObject: info.object,
                         pointerX: info.x,
@@ -141,6 +148,7 @@ class Map extends Component {
                             zoom={2}
                             reuseMaps
                             mapStyle="mapbox://styles/mapbox/dark-v9"
+                            onViewportChange={this._onViewportChange}
                             preventStyleDiffing={false}
                             mapboxApiAccessToken={MAPBOX_TOKEN}
                         />

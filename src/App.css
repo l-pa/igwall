@@ -4,5 +4,10 @@
   border-width: 0px 1px 0px 1px;
 }
 .map{
-  height: 500px;
+  height: -webkit-fill-available;
+  position: absolute;
+  width: -webkit-fill-available;
+}
+.center{
+  text-align: center;
 }
