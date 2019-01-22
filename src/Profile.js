@@ -64,7 +64,7 @@ class Profile extends Component {
     }
 
     fetchData(id) {
-        console.log("http://localhost:5000/user/" + id);
+        console.log("https://igwall-backend.herokuapp.com/user/" + id);
         var options = {
             method: 'get',
             headers: {
@@ -74,7 +74,7 @@ class Profile extends Component {
         }
 
 
-        fetch("http://localhost:5000/user/" + id, options)
+        fetch("https://igwall-backend.herokuapp.com/user/" + id, options)
             .then(res => res.json())
             .then(
                 (result) => {

@@ -48,7 +48,7 @@ class Map extends Component {
     }
 
     getDataAsync(id) {
-        return fetch("http://localhost:5000/user/" + id + "/map")
+        return fetch("https://igwall-backend.herokuapp.com/user/" + id + "/map")
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson);

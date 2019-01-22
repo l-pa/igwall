@@ -52,7 +52,7 @@ class Follow extends Component {
             },
         }
 
-        fetch("http://localhost:5000/user/" + id + "/following", options)
+        fetch("https://igwall-backend.herokuapp.com/user/" + id + "/following", options)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -72,7 +72,7 @@ class Follow extends Component {
                 }
             )
 
-        fetch("http://localhost:5000/user/" + id + "/followers", options)
+        fetch("https://igwall-backend.herokuapp.com/user/" + id + "/followers", options)
             .then(res => res.json())
             .then(
                 (result) => {
