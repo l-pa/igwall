@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { Badge } from 'reactstrap';
 import styled from 'styled-components'
 import Profile from './Profile'
 import Follow from './Follow'
+import Map from './Map'
+import './App.css'
 
 const Container = styled.body`
   text-align: center;
@@ -36,18 +39,18 @@ class App extends Component {
   }
 
   inputValueEvent(e) {
-      this.setState({ id: e.target.value });
+    this.setState({ id: e.target.value });
   }
 
   render() {
     return (
       <div className="App">
         <Container>
-          <Title>Instagram dashboard</Title>
+          <Title>Instagram mapboard</Title>
           <Input placeholder="ID" onChange={this.inputValueEvent} />
           <Profile id={this.state.id}></Profile>
-          
         </Container>
+        <Map></Map>
       </div>
     );
   }

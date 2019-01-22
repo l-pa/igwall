@@ -42,10 +42,10 @@ class Profile extends Component {
         super(props);
         //     this.fetchData = this.fetchData.bind(this)
         this.state = {
-            id: null,
-            name: null,
-            bio: null,
-            profilePicUrl: null,
+            id: '',
+            name: '',
+            bio: '',
+            profilePicUrl: '',
             isLoaded: false
         };
     }
